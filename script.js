@@ -2,94 +2,55 @@ const playerFactory = (playerNumber, alignment) => {
     return {playerNumber, alignment}
 
 }
+
 const gameBoardModule = (function() {
-    let gameBoard = ['X']
+    let gameBoard = ['','','','','','','','','']
     return {gameBoard}
 }
-    )() 
-
-const playerSelection = (function() {
-    let player1dom = document.querySelector('.player1')
-    let player2dom = document.querySelector('.player2')
-    let O = document.querySelector('.O')
-    let X = document.querySelector('.X')
-
-    let alignment
-    O.addEventListener('click', (e) => {
-        alignment = "O"
-        return alignment
-    })
-    X.addEventListener('click', (e)=> {
-        alignment = 'X'
-        return alignment
-    })
-    let player1 = playerFactory(1, alignment)
-
-    return {player1, alignment}
-})()
-pushToArray = function() {
-    if(playerSelection.player1.alignment == 'X') {
-        gameBoardModule.gameBoard.push('X')
+)() 
+const winningBoards = [
+    [0, 1, 2],
+    [0, 3, 6],
+    [0, 5, 8],
+    [3, 4, 5],
+    [6, 7, 8],
+    [2, 4, 6],
+    [2, 5, 8],
+    [1, 4, 7],
+]
+const renderGameBoard = function() {
+    let box = document.querySelectorAll('.box')
+    for(let i = 0; i < box.length; i++) {
+        gameBoardModule.gameBoard[i] = box[i].textContent
     }
-    else if (playerSelection.player1.alignment = 'O') {
-        gameBoardModule.gameBoard.push('X')
-    }
-    return gameBoardModule.gameBoard
-    }
-
-const renderGameBoard = (function() {
-    let gameBoard = document.querySelectorAll('.box')
-    let creator = function() {
-        for(let i = 0; i < gameBoard.length; i++) {
-            gameBoard[i].className = 'boxRender'
-        }
-        return {gameBoard}
-    }
-    return {gameBoard, creator}
-})()
-const renderContents = function() {
-    for(let i = 0; i < gameBoardModule.gameBoard.length -1; i++) {
-        gameBoardModule.gameBoard[i] = document.createTextNode(gameBoardModule.gameBoard[i])
-        return gameBoardModule.gameBoard[i]
-    }
+    console.log(gameBoardModule.gameBoard)
 }
-
-const placeLogic = (function() {
-    const markX = function() { renderGameBoard.gameBoard.forEach(element => {
-        let i = 1
-        let box[i] = document.querySelector('')
-        addEventListener('click', (e) => {
-            append('X')
-            return gameBoardModule.gameBoard.push('X')
+renderGameBoard()
+const placeX = function() {
+    let box = document.querySelectorAll('.box')
+    for(let i = 0; i < box.length; i++) {
+        box[i].addEventListener('click', (e) => {
+            if(box[i].textContent == ''){
+                box[i].append('X')
+            }
         })
-    })
-}
-    const markO = function() {renderGameBoard.gameBoard.forEach(element => {
-        addEventListener('click', (e) => {
-            append('O')
-            return gameBoardModule.gameBoard.push('O')
-        })
-    })
-}
-    return {markO, markX}
-})()
- 
-    const playGameLogic = function() {
-        if(playerSelection.player1.alignment == 'X') {
-            placeLogic.markX()
-            let computerAI = playerFactory(2, 'O')
-        }
-        else if (playerSelection.player1.alignment == 'O') {
-            placeLogic.markO()
-            let computerAI = playerFactory(2, 'X')
-        }
-        return{computerAI}
     }
+}
+const placeO = function() {
+    let box = document.querySelectorAll('.box')
+    for(let i = 0; i < box.length; i++) {
+        box[i].addEventListener('click', (e) => {
+            if(box[i].textContent == ''){
+                box[i].append('O')
+            }
+        })
+    }
+}
+const pickAlignment = function() {
+    let markerX = document.querySelector('.X')
+    let markerO = document.querySelector('.O')
+    markerX.addEventListener('click', placeX)
+    markerO.addEventListener('click', placeO)
 
-placeLogic.markO()
-
-
-const gameFlow = (function() {
-
-})()
-renderGameBoard.creator()
+}
+pickAlignment()
